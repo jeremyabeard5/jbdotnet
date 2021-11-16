@@ -1,0 +1,5 @@
+/home/jeremy/Documents/GitStuff/pd/podman-dotnet/testApp/bin/Release/net5.0/publish/testApp
+/home/jeremy/Documents/GitStuff/pd/podman-dotnet/testApp/bin/Release/net5.0/publish/testApp.dll
+/home/jeremy/Documents/GitStuff/pd/podman-dotnet/testApp/bin/Release/net5.0/publish/testApp.deps.json
+/home/jeremy/Documents/GitStuff/pd/podman-dotnet/testApp/bin/Release/net5.0/publish/testApp.runtimeconfig.json
+/home/jeremy/Documents/GitStuff/pd/podman-dotnet/testApp/bin/Release/net5.0/publish/testApp.pdb

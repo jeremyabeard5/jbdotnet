@@ -1,0 +1,5 @@
+/home/jeremy/Documents/GitStuff/pd/podman-dotnet/App-20211112/bin/Release/net5.0/publish/20211112
+/home/jeremy/Documents/GitStuff/pd/podman-dotnet/App-20211112/bin/Release/net5.0/publish/20211112.dll
+/home/jeremy/Documents/GitStuff/pd/podman-dotnet/App-20211112/bin/Release/net5.0/publish/20211112.deps.json
+/home/jeremy/Documents/GitStuff/pd/podman-dotnet/App-20211112/bin/Release/net5.0/publish/20211112.runtimeconfig.json
+/home/jeremy/Documents/GitStuff/pd/podman-dotnet/App-20211112/bin/Release/net5.0/publish/20211112.pdb

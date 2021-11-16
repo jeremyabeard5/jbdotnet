@@ -1,0 +1,16 @@
+/home/jeremy/Documents/GitStuff/pd/podman-dotnet/App-20211112/bin/Release/net5.0/20211112
+/home/jeremy/Documents/GitStuff/pd/podman-dotnet/App-20211112/bin/Release/net5.0/20211112.deps.json
+/home/jeremy/Documents/GitStuff/pd/podman-dotnet/App-20211112/bin/Release/net5.0/20211112.runtimeconfig.json
+/home/jeremy/Documents/GitStuff/pd/podman-dotnet/App-20211112/bin/Release/net5.0/20211112.runtimeconfig.dev.json
+/home/jeremy/Documents/GitStuff/pd/podman-dotnet/App-20211112/bin/Release/net5.0/20211112.dll
+/home/jeremy/Documents/GitStuff/pd/podman-dotnet/App-20211112/bin/Release/net5.0/ref/20211112.dll
+/home/jeremy/Documents/GitStuff/pd/podman-dotnet/App-20211112/bin/Release/net5.0/20211112.pdb
+/home/jeremy/Documents/GitStuff/pd/podman-dotnet/App-20211112/obj/Release/net5.0/20211112.csprojAssemblyReference.cache
+/home/jeremy/Documents/GitStuff/pd/podman-dotnet/App-20211112/obj/Release/net5.0/20211112.GeneratedMSBuildEditorConfig.editorconfig
+/home/jeremy/Documents/GitStuff/pd/podman-dotnet/App-20211112/obj/Release/net5.0/20211112.AssemblyInfoInputs.cache
+/home/jeremy/Documents/GitStuff/pd/podman-dotnet/App-20211112/obj/Release/net5.0/20211112.AssemblyInfo.cs
+/home/jeremy/Documents/GitStuff/pd/podman-dotnet/App-20211112/obj/Release/net5.0/20211112.csproj.CoreCompileInputs.cache
+/home/jeremy/Documents/GitStuff/pd/podman-dotnet/App-20211112/obj/Release/net5.0/20211112.dll
+/home/jeremy/Documents/GitStuff/pd/podman-dotnet/App-20211112/obj/Release/net5.0/ref/20211112.dll
+/home/jeremy/Documents/GitStuff/pd/podman-dotnet/App-20211112/obj/Release/net5.0/20211112.pdb
+/home/jeremy/Documents/GitStuff/pd/podman-dotnet/App-20211112/obj/Release/net5.0/20211112.genruntimeconfig.cache

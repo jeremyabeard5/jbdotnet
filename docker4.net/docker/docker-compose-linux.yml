@@ -1,0 +1,32 @@
+version: '3.7'
+
+services:
+
+  alpine:
+    image: docker4dotnet/alpine
+    build:
+      context: linux/alpine
+
+  mssql:
+    image: docker4dotnet/mssql:2017
+    build:
+      context: linux/mssql
+
+  ubuntu:
+    image: docker4dotnet/ubuntu
+    build:
+      context: linux/ubuntu
+
+  whoami:
+    image: docker4dotnet/whoami:linux-amd64
+    build:
+      context: multi-arch/whoami
+      args:
+        SDK_TAG: 3.1-alpine
+        ASPNET_TAG: 3.1-alpine
+
+  fluentd:
+    image: docker4dotnet/fluentd:linux-amd64
+    build:
+      context: multi-arch/fluentd/linux
+

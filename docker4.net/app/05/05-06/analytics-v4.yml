@@ -1,0 +1,56 @@
+version: "3.8"
+
+services:
+
+  elasticsearch:
+    image: elasticsearch:6.8.12
+    environment:
+      - discovery.type=single-node
+    networks:
+      - analytics-net
+    deploy:
+      placement:
+        constraints:
+          - "node.platform.os == linux"
+
+  kibana:
+    image: kibana:6.8.12
+    ports:
+      - "5601:5601"
+    networks:
+      - analytics-net
+    deploy:
+      placement:
+        constraints:
+          - "node.platform.os == linux"
+
+  index-handler:
+    image: docker4dotnet/index-handler:05-03
+    networks:
+      - backend-net
+      - analytics-net
+    environment:
+      - Metrics:Server:Enabled=true
+      - Metrics:Application:Enabled=true
+    logging:
+      driver: "fluentd"
+      options:
+        tag: "signup.index-handler.{{.ImageName}}"
+    deploy:
+      replicas: 4
+      placement:
+        constraints:
+          - "node.platform.os == linux"
+      labels:
+        - "prometheus-scrape=true"
+        - "prometheus-path=/metrics"
+        - "prometheus-port=80"
+
+networks:
+  analytics-net:
+    external: true
+    name: analytics-net
+
+  backend-net:
+    external: true
+    name: backend-net

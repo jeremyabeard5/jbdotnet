@@ -1,0 +1,26 @@
+version: '3.7'
+
+services:
+
+  nanoserver:
+    image: docker4dotnet/nanoserver
+    build:
+      context: windows/nanoserver
+
+  servercore:
+    image: docker4dotnet/servercore
+    build:
+      context: windows/servercore
+
+  whoami:
+    image: docker4dotnet/whoami:windows-amd64
+    build:
+      context: multi-arch/whoami
+      args:
+        SDK_TAG: 3.1-nanoserver-1809
+        ASPNET_TAG: 3.1-nanoserver-1809
+
+  fluentd:
+    image: docker4dotnet/fluentd:windows-amd64
+    build:
+      context: multi-arch/fluentd/windows

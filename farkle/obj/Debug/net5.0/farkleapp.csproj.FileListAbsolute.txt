@@ -1,0 +1,16 @@
+/home/jeremy/Documents/GitStuff/pd/podman-dotnet/farkle/bin/Debug/net5.0/farkleapp
+/home/jeremy/Documents/GitStuff/pd/podman-dotnet/farkle/bin/Debug/net5.0/farkleapp.deps.json
+/home/jeremy/Documents/GitStuff/pd/podman-dotnet/farkle/bin/Debug/net5.0/farkleapp.runtimeconfig.json
+/home/jeremy/Documents/GitStuff/pd/podman-dotnet/farkle/bin/Debug/net5.0/farkleapp.runtimeconfig.dev.json
+/home/jeremy/Documents/GitStuff/pd/podman-dotnet/farkle/bin/Debug/net5.0/farkleapp.dll
+/home/jeremy/Documents/GitStuff/pd/podman-dotnet/farkle/bin/Debug/net5.0/ref/farkleapp.dll
+/home/jeremy/Documents/GitStuff/pd/podman-dotnet/farkle/bin/Debug/net5.0/farkleapp.pdb
+/home/jeremy/Documents/GitStuff/pd/podman-dotnet/farkle/obj/Debug/net5.0/farkleapp.csprojAssemblyReference.cache
+/home/jeremy/Documents/GitStuff/pd/podman-dotnet/farkle/obj/Debug/net5.0/farkleapp.GeneratedMSBuildEditorConfig.editorconfig
+/home/jeremy/Documents/GitStuff/pd/podman-dotnet/farkle/obj/Debug/net5.0/farkleapp.AssemblyInfoInputs.cache
+/home/jeremy/Documents/GitStuff/pd/podman-dotnet/farkle/obj/Debug/net5.0/farkleapp.AssemblyInfo.cs
+/home/jeremy/Documents/GitStuff/pd/podman-dotnet/farkle/obj/Debug/net5.0/farkleapp.csproj.CoreCompileInputs.cache
+/home/jeremy/Documents/GitStuff/pd/podman-dotnet/farkle/obj/Debug/net5.0/farkleapp.dll
+/home/jeremy/Documents/GitStuff/pd/podman-dotnet/farkle/obj/Debug/net5.0/ref/farkleapp.dll
+/home/jeremy/Documents/GitStuff/pd/podman-dotnet/farkle/obj/Debug/net5.0/farkleapp.pdb
+/home/jeremy/Documents/GitStuff/pd/podman-dotnet/farkle/obj/Debug/net5.0/farkleapp.genruntimeconfig.cache
