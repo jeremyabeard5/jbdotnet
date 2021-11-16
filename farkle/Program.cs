@@ -96,13 +96,97 @@ namespace farkleapp
                 Console.WriteLine(player + "'s current score is: " + score + ".");
                 Console.WriteLine("Press Enter to roll!");
                 Console.Read();
+                int turnScore = 0;
+                bool playerPlaying = true;
+                while (playerPlaying) {
+
                 List<int> turnRoll = new List<int>(FarkleRoll(6));
                 Console.WriteLine(DisplayRoll(turnRoll));
-                EvaluateRoll(turnRoll);
+                
+                List<int> choices = new List<int>();
+                choices = EvaluateRoll(turnRoll); //(ex. [3, 2, 1, 0, 0])
+                
+                List<String> letras = new List<String>();
+                letras.Add("A");
+                letras.Add("B");
+                letras.Add("C");
+                letras.Add("D");
+                letras.Add("E");
+                
+                List<String> choicesString = new List<String>();
+                choicesString.Add("1's");
+                choicesString.Add("5's");
+                choicesString.Add("Trios");
+                choicesString.Add("Three Pairs");
+                choicesString.Add("Straight (1-6)");
 
-                return 0;
+                //Populate list of possible choices (choiceOptions) for scores to bank
+                int letterIndex = 0;
+                List<String> choiceOptions = new List<String>();
+                for (int i = 0; i < choices.Count; i++) {
+                    if (choices[i] > 0) {
+                        choiceOptions.Add(choicesString[i]);
+                        letterIndex++;
+                    }
+                }                
+
+                //If there are no options, then you farkle.
+                if (choiceOptions.Count.Equals(0)) {
+                    Console.WriteLine("FARKLE. No more options. Next player's turn!");
+                    return 0;
+                }
+
+                bool validChoice = false;
+                int choiceIndex = -1;
+                while (!validChoice) {
+                    Console.WriteLine("What would you like to take for scoring? (Enter one letter for choice)");
+                    for (int i = 0; i < choiceOptions.Count; i++) {
+                        Console.WriteLine(letras[i] + ". " + choiceOptions[i]);
+                    }
+                    Console.Write("\nChoice: ");
+                    String choice = Console.ReadLine();
+                    choice = choice.ToUpper();
+                    
+                    for (int i = 0; i < choiceOptions.Count; i++) {
+                        if (choice.Length.Equals(1) && choice.Equals(letras[i])) {
+                            choiceIndex = i;
+                            validChoice = true;
+                            Console.WriteLine("Choice accepted!");
+                            Console.WriteLine(letras[choiceIndex] + ". " + choiceOptions[choiceIndex]);
+                        }
+                        
+                    }
+                    if (!validChoice) {
+                        Console.WriteLine("ERROR: Invalid selection. Enter one letter for choice. Try again.");
+                    }
+                }
+                //User Selection validated
+                //Now determine score based on choice
+                int unitScore = 0;
+                if (choiceOptions[choiceIndex].Equals("1's")) {
+                    unitScore = ScoreNums(1);
+                } else if (choiceOptions[choiceIndex].Equals("5's")) {
+                    unitScore = ScoreNums(5);
+                } else if (choiceOptions[choiceIndex].Equals("Trios")) {
+                    unitScore = ScoreTrios();
+                } else if (choiceOptions[choiceIndex].Equals("Three Pairs")) {
+                    unitScore = 750;
+                } else if (choiceOptions[choiceIndex].Equals("Straight (1-6)")) {
+                    unitScore = 1000;
+                }
+                turnScore += unitScore;
+                Console.WriteLine("Roll remaining dice? (y/n): ");
+                String wantToContinue = Console.ReadLine();
+                //ADD STEPS TO VALIDATE SELECTION
+                if (wantToContinue.Equals("n")) {
+                    playerPlaying = false;
+                    FinishTurn(turnScore); //WRITE THIS FUNCTION
+                }
+                }
+                return turnScore;
             }
 
+            #region
             string DisplayRoll(List<int> roll) {
                 roll.Sort();
                 string preRow = " ";
@@ -180,8 +264,9 @@ namespace farkleapp
                 string result = preRow + "\n" + topRow + "\n" + midRow + "\n" + lowRow + "\n";
                 return result;
             }
+            #endregion
 
-            void EvaluateRoll(List<int> roll) {
+            List<int> EvaluateRoll(List<int> roll) {
                 List<string> choices = new List<string>();
                 List<int> numOnes = new List<int>(CountNums(roll, 1));
                 List<int> numFives = new List<int>(CountNums(roll, 5));
@@ -197,6 +282,25 @@ namespace farkleapp
                 Console.WriteLine("3 Pairs?: " + ThreePairs(roll));
                 //todo: display pairs
                 Console.WriteLine("Straight (1-6)?: " + IsStraight(roll).ToString());
+
+                List<int> result = new List<int>();
+                result.Add(numOnes[0]);
+                result.Add(numFives[0]);
+                result.Add(numTrios[0]);
+                if (ThreePairs(roll)) {
+                    result.Add(1);
+                } else {
+                    result.Add(0);
+                }
+                if (IsStraight(roll)) {
+                    result.Add(1);
+                } else {
+                    result.Add(0);
+                }
+
+                return result;
+                //RESULT is list of 5 integers: (# of 1's, # of 5's, # of Trios, Three-Pair (1/0), Straight (1/0))
+                
             }
 
             List<int> CountNums(List<int> roll, int key) {
@@ -302,6 +406,20 @@ namespace farkleapp
                 else
                     return false;
             }
+        
+            int ScoreNums(int num) {
+                return 0;
+            }
+
+            int ScoreTrios() {
+                return 0;
+            }
+
+            void FinishTurn(int score) {
+                Console.WriteLine("Turn finished!");
+                Console.WriteLine("You scored " + score + " this turn!");
+            }
+
         }
         
     }
