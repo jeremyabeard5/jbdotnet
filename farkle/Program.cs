@@ -196,7 +196,7 @@ namespace farkleapp
                 //todo: display triples
                 Console.WriteLine("3 Pairs?: " + ThreePairs(roll));
                 //todo: display pairs
-                Console.WriteLine("Straight?: " + IsStraight(roll).ToString());
+                Console.WriteLine("Straight (1-6)?: " + IsStraight(roll).ToString());
             }
 
             List<int> CountNums(List<int> roll, int key) {
