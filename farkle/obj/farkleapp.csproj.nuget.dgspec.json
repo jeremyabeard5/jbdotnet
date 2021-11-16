@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/jeremy/Documents/GitStuff/pd/podman-dotnet/farkle/farkleapp.csproj": {}
+    "/home/jeremy/Documents/GitStuff/jbdotnet/farkle/farkleapp.csproj": {}
   },
   "projects": {
-    "/home/jeremy/Documents/GitStuff/pd/podman-dotnet/farkle/farkleapp.csproj": {
+    "/home/jeremy/Documents/GitStuff/jbdotnet/farkle/farkleapp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/jeremy/Documents/GitStuff/pd/podman-dotnet/farkle/farkleapp.csproj",
+        "projectUniqueName": "/home/jeremy/Documents/GitStuff/jbdotnet/farkle/farkleapp.csproj",
         "projectName": "farkleapp",
-        "projectPath": "/home/jeremy/Documents/GitStuff/pd/podman-dotnet/farkle/farkleapp.csproj",
+        "projectPath": "/home/jeremy/Documents/GitStuff/jbdotnet/farkle/farkleapp.csproj",
         "packagesPath": "/home/jeremy/.nuget/packages/",
-        "outputPath": "/home/jeremy/Documents/GitStuff/pd/podman-dotnet/farkle/obj/",
+        "outputPath": "/home/jeremy/Documents/GitStuff/jbdotnet/farkle/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/jeremy/.nuget/NuGet/NuGet.Config"
