@@ -90,100 +90,176 @@ namespace farkleapp
                 Console.WriteLine("\nPlayers are set.\nLet's begin!!!");
             }
 
-            int PlayerTurn(int turn, string player, int score) {
+            int PlayerTurn(int turn, string player, int score)
+            {
                 Console.WriteLine("\n" + player + "'s turn!");
                 Console.WriteLine("TURN: " + turn + ", PLAYER: " + player);
                 Console.WriteLine(player + "'s current score is: " + score + ".");
                 Console.WriteLine("Press Enter to roll!");
                 Console.Read();
                 int turnScore = 0;
+                int numDice = 6;
+                List<int> turnRoll = new List<int>();
                 bool playerPlaying = true;
-                while (playerPlaying) {
+                while (playerPlaying)
+                {
 
-                List<int> turnRoll = new List<int>(FarkleRoll(6));
-                Console.WriteLine(DisplayRoll(turnRoll));
-                
-                List<int> choices = new List<int>();
-                choices = EvaluateRoll(turnRoll); //(ex. [3, 2, 1, 0, 0])
-                
-                List<String> letras = new List<String>();
-                letras.Add("A");
-                letras.Add("B");
-                letras.Add("C");
-                letras.Add("D");
-                letras.Add("E");
-                
-                List<String> choicesString = new List<String>();
-                choicesString.Add("1's");
-                choicesString.Add("5's");
-                choicesString.Add("Trios");
-                choicesString.Add("Three Pairs");
-                choicesString.Add("Straight (1-6)");
+                    turnRoll = new List<int>(FarkleRoll(numDice));
+                    Console.WriteLine(DisplayRoll(turnRoll));
 
-                //Populate list of possible choices (choiceOptions) for scores to bank
-                int letterIndex = 0;
-                List<String> choiceOptions = new List<String>();
-                for (int i = 0; i < choices.Count; i++) {
-                    if (choices[i] > 0) {
-                        choiceOptions.Add(choicesString[i]);
-                        letterIndex++;
+                    List<int> choices = new List<int>();
+                    choices = EvaluateRoll(turnRoll); //(ex. [3, 2, 1, 0, 0])
+
+                    List<String> letras = new List<String>();
+                    letras.Add("A");
+                    letras.Add("B");
+                    letras.Add("C");
+                    letras.Add("D");
+                    letras.Add("E");
+
+                    List<String> choicesString = new List<String>();
+                    choicesString.Add("1's");
+                    choicesString.Add("5's");
+                    choicesString.Add("Trios");
+                    choicesString.Add("Three Pairs");
+                    choicesString.Add("Straight (1-6)");
+
+                    //Populate list of possible choices (choiceOptions) for scores to bank
+                    int letterIndex = 0;
+                    List<String> choiceOptions = new List<String>();
+                    for (int i = 0; i < choices.Count; i++)
+                    {
+                        if (choices[i] > 0)
+                        {
+                            choiceOptions.Add(choicesString[i]);
+                            letterIndex++;
+                        }
                     }
-                }                
 
-                //If there are no options, then you farkle.
-                if (choiceOptions.Count.Equals(0)) {
-                    Console.WriteLine("FARKLE. No more options. Next player's turn!");
-                    return 0;
-                }
-
-                bool validChoice = false;
-                int choiceIndex = -1;
-                while (!validChoice) {
-                    Console.WriteLine("What would you like to take for scoring? (Enter one letter for choice)");
-                    for (int i = 0; i < choiceOptions.Count; i++) {
-                        Console.WriteLine(letras[i] + ". " + choiceOptions[i]);
+                    //If there are no options, then you farkle.
+                    if (choiceOptions.Count.Equals(0))
+                    {
+                        Console.WriteLine("FARKLE. No options. 0 for this turn. Next player's turn!");
+                        return 0;
                     }
-                    Console.Write("\nChoice: ");
-                    String choice = Console.ReadLine();
-                    choice = choice.ToUpper();
-                    
-                    for (int i = 0; i < choiceOptions.Count; i++) {
-                        if (choice.Length.Equals(1) && choice.Equals(letras[i])) {
-                            choiceIndex = i;
-                            validChoice = true;
-                            Console.WriteLine("Choice accepted!");
-                            Console.WriteLine(letras[choiceIndex] + ". " + choiceOptions[choiceIndex]);
+
+                    bool validChoice = false;
+                    int choiceIndex = -1;
+                    while (!validChoice)
+                    {
+                        Console.WriteLine("What would you like to take for scoring? (Enter one letter for choice)");
+                        for (int i = 0; i < choiceOptions.Count; i++)
+                        {
+                            Console.WriteLine(letras[i] + ". " + choiceOptions[i]);
+                        }
+                        Console.Write("\nChoice: ");
+                        String choice = Console.ReadLine();
+                        choice = choice.ToUpper();
+
+                        for (int i = 0; i < choiceOptions.Count; i++)
+                        {
+                            if (choice.Length.Equals(1) && choice.Equals(letras[i]))
+                            {
+                                choiceIndex = i;
+                                validChoice = true;
+                                Console.WriteLine("Choice accepted!");
+                                Console.WriteLine(letras[choiceIndex] + ". " + choiceOptions[choiceIndex]);
+                            }
+
+                        }
+                        if (!validChoice)
+                        {
+                            Console.WriteLine("ERROR: Invalid selection. Enter one letter for choice. Try again.");
+                        }
+                    }
+                    //User Selection validated
+                    //Now determine score based on choice
+                    int unitScore = 0;
+                    if (choiceOptions[choiceIndex].Equals("1's")) {
+                        bool validInput = false;
+                        int bankedOnes = -1;
+                        while (!validInput) {
+                            Console.Write("How many 1's will you bank? (Max " + choices[0] + "): ");
+                            string bankInput = Console.ReadLine();
+                            //ERROR CHECKING
+                            try {
+                                bankedOnes = int.Parse(bankInput);
+                            } catch (Exception e) {
+                                Console.WriteLine("ERROR: Invalid input.");
+                            }
+                            if (bankedOnes < 0 || bankedOnes > choices[0]) {
+                                Console.WriteLine("ERROR: Selection is too many or too few 1's ");
+                            } else {
+                                validInput = true;
+                            }
+                        }
+                        
+                        unitScore = ScoreNums(1, choices, turnRoll, bankedOnes);
+                        List<int> numOnes = new List<int>(CountNums(turnRoll, 1));
+                        string oneIndexesStr = numOnes[1].ToString();
+                        List<int> oneIndexes = new List<int>();
+                        for (int i = 0; i < oneIndexesStr.Length; i++) {
+                            oneIndexes.Add(int.Parse(oneIndexesStr.Substring(i,1)) - 1);
+                        }
+                        for (int i = 0; i < bankedOnes; i++) {
+                            turnRoll.RemoveAt(oneIndexes[i]);
+                            numDice--;
                         }
                         
                     }
-                    if (!validChoice) {
-                        Console.WriteLine("ERROR: Invalid selection. Enter one letter for choice. Try again.");
+                    else if (choiceOptions[choiceIndex].Equals("5's")) {
+                        bool validInput = false;
+                        int bankedFives = -1;
+                        while (!validInput) {
+                            Console.Write("How many 5's will you bank? (Max " + choices[1] + "): ");
+                            string bankInput = Console.ReadLine();
+                            //ERROR CHECKING
+                            try {
+                                bankedFives = int.Parse(bankInput);
+                            } catch (Exception e) {
+                                Console.WriteLine("ERROR: Invalid input.");
+                            }
+                            if (bankedFives < 0 || bankedFives > choices[1]) {
+                                Console.WriteLine("ERROR: Selection is too many or too few 5's ");
+                            } else {
+                                validInput = true;
+                            }
+                        }
+                        unitScore = ScoreNums(5, choices, turnRoll, bankedFives);
+                        List<int> numFives = new List<int>(CountNums(turnRoll, 5));
+                        string fiveIndexesStr = numFives[1].ToString();
+                        List<int> fiveIndexes = new List<int>();
+                        for (int i = 0; i < fiveIndexesStr.Length; i++) {
+                            fiveIndexes.Add(int.Parse(fiveIndexesStr.Substring(i,1)) - 1);
+                        }
+                        for (int i = 0; i < bankedFives; i++) {
+                            turnRoll.RemoveAt(fiveIndexes[i]);
+                            numDice--;
+                        }
+                    }
+                    else if (choiceOptions[choiceIndex].Equals("Trios")) {
+                        unitScore = ScoreTrios();
+                    }
+                    else if (choiceOptions[choiceIndex].Equals("Three Pairs")) {
+                        unitScore = 750;
+                    }
+                    else if (choiceOptions[choiceIndex].Equals("Straight (1-6)")) {
+                        unitScore = 1000;
+                    }
+                    turnScore += unitScore;
+                    Console.WriteLine("Current Turn Score: " + turnScore);
+                    Console.WriteLine("Roll remaining dice? (y/n): ");
+                    String wantToContinue = Console.ReadLine();
+                    //ADD STEPS TO VALIDATE SELECTION
+                    if (wantToContinue.Equals("n"))
+                    {
+                        playerPlaying = false;
+                        Console.WriteLine("Turn finished!");
+                        Console.WriteLine("You scored " + turnScore + " this turn!");
+                        Console.WriteLine("Total Score: " + (score + turnScore));
                     }
                 }
-                //User Selection validated
-                //Now determine score based on choice
-                int unitScore = 0;
-                if (choiceOptions[choiceIndex].Equals("1's")) {
-                    unitScore = ScoreNums(1);
-                } else if (choiceOptions[choiceIndex].Equals("5's")) {
-                    unitScore = ScoreNums(5);
-                } else if (choiceOptions[choiceIndex].Equals("Trios")) {
-                    unitScore = ScoreTrios();
-                } else if (choiceOptions[choiceIndex].Equals("Three Pairs")) {
-                    unitScore = 750;
-                } else if (choiceOptions[choiceIndex].Equals("Straight (1-6)")) {
-                    unitScore = 1000;
-                }
-                turnScore += unitScore;
-                Console.WriteLine("Roll remaining dice? (y/n): ");
-                String wantToContinue = Console.ReadLine();
-                //ADD STEPS TO VALIDATE SELECTION
-                if (wantToContinue.Equals("n")) {
-                    playerPlaying = false;
-                    FinishTurn(turnScore); //WRITE THIS FUNCTION
-                }
-                }
-                return turnScore;
+                return (score + turnScore);
             }
 
             #region
@@ -407,7 +483,14 @@ namespace farkleapp
                     return false;
             }
         
-            int ScoreNums(int num) {
+            int ScoreNums(int num, List<int> rollSummary, List<int> roll, int numsToBank) {
+                List<int> numCount = CountNums(roll, num);
+                if (num.Equals(1)) {
+                    return 100*numsToBank;
+                }
+                if (num.Equals(5)) {
+                    return 50*numsToBank;
+                }
                 return 0;
             }
 
@@ -415,10 +498,7 @@ namespace farkleapp
                 return 0;
             }
 
-            void FinishTurn(int score) {
-                Console.WriteLine("Turn finished!");
-                Console.WriteLine("You scored " + score + " this turn!");
-            }
+            
 
         }
         
