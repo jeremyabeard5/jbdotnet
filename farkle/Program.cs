@@ -209,15 +209,18 @@ namespace farkleapp
                     }
                     else if (choiceOptions[choiceIndex].Equals("5's")) {
                         bool validInput = false;
-                        int bankedFives = -1;
+                        int bankedFives = 1;
                         while (!validInput) {
-                            Console.Write("How many 5's will you bank? (Max " + choices[1] + "): ");
-                            string bankInput = Console.ReadLine();
-                            //ERROR CHECKING
-                            try {
-                                bankedFives = int.Parse(bankInput);
-                            } catch (Exception e) {
-                                Console.WriteLine("ERROR: Invalid input.");
+                            if (choices[1] > 1) {
+                                Console.Write("How many 5's will you bank? (Max " + choices[1] + "): ");
+                                string bankInput = Console.ReadLine();
+                                //ERROR CHECKING
+                                try
+                                {
+                                    bankedFives = int.Parse(bankInput);
+                                } catch (Exception e) {
+                                    Console.WriteLine("ERROR: Invalid 5 number input.");
+                                }
                             }
                             if (bankedFives < 0 || bankedFives > choices[1]) {
                                 Console.WriteLine("ERROR: Selection is too many or too few 5's ");
@@ -238,7 +241,27 @@ namespace farkleapp
                         }
                     }
                     else if (choiceOptions[choiceIndex].Equals("Trios")) {
-                        unitScore = ScoreTrios();
+                        bool validInput = false;
+                        int bankedTrios = 1;
+                        while (!validInput) {
+                            if (choices[2] > 1) { //if more than 1 trio, prompt
+                                Console.Write("How many trios will you bank? (Max " + choices[2] + "): ");
+                                string bankInput = Console.ReadLine();
+                                //ERROR CHECKING
+                                try
+                                {
+                                    bankedTrios = int.Parse(bankInput);
+                                } catch (Exception e) {
+                                    Console.WriteLine("ERROR: Invalid trio input.");
+                                }
+                            }
+                            if (bankedTrios < 0 || bankedTrios > choices[2]) {
+                                Console.WriteLine("ERROR: Selection is too many or too few trios ");
+                            } else {
+                                validInput = true;
+                            }
+                        }
+                        unitScore = ScoreTrios(turnRoll, bankedTrios);
                     }
                     else if (choiceOptions[choiceIndex].Equals("Three Pairs")) {
                         unitScore = 750;
@@ -433,32 +456,39 @@ namespace farkleapp
                 return result;
             }
 
+            //Returns list of 3 ints
+            //[# of trios (1 or 2), trio Numbers [1-6][1-6], non-zero trio indexes [1-6][1-6][1-6][1-6][1-6][1-6]
             List<int> CountTrios(List<int> roll) {
                 int numTrios = 0;
                 List<int> result = new List<int>();
                 string trioIndexes = "";
+                string trioNums = "";
                 List<bool> beenFound = new List<bool>();
                 for (int i = 0; i < roll.Count; i++) {
                     beenFound.Add(false);
                 }
                 for (int i = 0; i < roll.Count; i++) {
                     for (int j = 1; j < roll.Count; j++) {
-                        for (int k = 2; k < roll.Count; k++)
-                        if (roll[i].Equals(roll[j]) && roll[j].Equals(roll[k]) && roll[i].Equals(roll[k]) && !beenFound[i] && !beenFound[j] && !beenFound[k] && !i.Equals(j) && !j.Equals(k) && !i.Equals(k) ) {
-                            numTrios++;
-                            int nonZeroI = i + 1;
-                            int nonZeroJ = j + 1;
-                            int nonZeroK = k + 1;
-                            trioIndexes += nonZeroI.ToString();
-                            trioIndexes += nonZeroJ.ToString();
-                            trioIndexes += nonZeroK.ToString();
-                            beenFound[i] = true;
-                            beenFound[j] = true;
-                            beenFound[k] = true;
+                        for (int k = 2; k < roll.Count; k++) {
+                            if (roll[i].Equals(roll[j]) && roll[j].Equals(roll[k]) && roll[i].Equals(roll[k]) && !beenFound[i] && !beenFound[j] && !beenFound[k] && !i.Equals(j) && !j.Equals(k) && !i.Equals(k)) {
+                                int nonZeroI = i + 1;
+                                int nonZeroJ = j + 1;
+                                int nonZeroK = k + 1;
+                                trioIndexes += nonZeroI.ToString();
+                                trioIndexes += nonZeroJ.ToString();
+                                trioIndexes += nonZeroK.ToString();
+                                beenFound[i] = true;
+                                beenFound[j] = true;
+                                beenFound[k] = true;
+                                trioNums += roll[i].ToString();
+                                numTrios++;
+                            }
                         }
                     }
                 }
+                int trioNumsInt = int.Parse(trioNums);
                 result.Add(numTrios);
+                result.Add(trioNumsInt);
                 if (trioIndexes.Length > 0) {
                     result.Add(int.Parse(trioIndexes));
                 } else {
@@ -494,7 +524,41 @@ namespace farkleapp
                 return 0;
             }
 
-            int ScoreTrios() {
+            int ScoreTrios(List<int> roll, int numTriosToBank) {
+                List<int> trioSummary = CountTrios(roll);
+                if (numTriosToBank.Equals(1)) {
+                    Console.Write("Which # trio to bank? (ex. 5): ");
+                    string intInput = Console.ReadLine();
+                    bool validInput = false;
+                    int trioBankChoice = -1;
+                    while(!validInput) {
+                        if (intInput.Length > 1 || intInput.Length.Equals(0)) {
+                            Console.WriteLine("ERROR: Invalid input. Enter one number indicating trio.");
+                        }
+                        else {
+                            try {
+                                trioBankChoice = int.Parse(intInput); //ex. 5 (for 555)
+                            } catch (Exception e) {
+                                Console.WriteLine("ERROR: incorrect input. Enter integer (1-6) of trio (1, 2, etc.)");
+                            }
+                            string trios = trioSummary[0].ToString();
+                            string trioNums = trioSummary[1].ToString();
+                            string trioIndices = trioSummary[2].ToString();
+                            for (int i = 0; i < trioNums.Length; i++) {
+                                int trioNum = int.Parse(trioNums.Substring(i,1));
+                                if (trioNum.Equals(trioBankChoice)) {
+                                    // get indexes of trio
+
+                                    //remove dice from roll
+
+                                    //determine what # they are (trioNum)
+                                    //Multiply to get unit score
+                                    //Return unit score
+                                }
+                            }
+                        }
+                    }
+                }
                 return 0;
             }
 
