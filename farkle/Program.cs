@@ -109,10 +109,12 @@ namespace farkleapp
 
             int PlayerTurn(int turn, string player, int score)
             {
-                Console.WriteLine("\n" + player + "'s turn!");
+                Console.WriteLine("\n----------");    
+                Console.WriteLine("" + player + "'s turn!");
                 Console.WriteLine("TURN: " + turn + ", PLAYER: " + player);
                 Console.WriteLine(player + "'s current score is: " + score + ".");
-                Console.WriteLine("Press Enter to roll!");
+                Console.WriteLine("----------");
+                Console.Write("Press Enter to roll!");
                 Console.Read();
                 int turnScore = 0;
                 int numDice = 6;
@@ -120,12 +122,13 @@ namespace farkleapp
                 bool playerPlaying = true;
                 while (playerPlaying)
                 {
-                    Console.WriteLine("\nTURN: " + turn + ", PLAYER: " + player);
+                    Console.WriteLine("\n----------------------------------------");
+                    Console.WriteLine("TURN: " + turn + ", PLAYER: " + player);
                     Console.WriteLine(player + "'s score before this turn is: " + score + ".");
                     Console.WriteLine(player + "'s banked points this turn is: " + turnScore + ".");
                     turnRoll = new List<int>(FarkleRoll(numDice));
-
                     Console.WriteLine(DisplayRoll(turnRoll));
+                    Console.WriteLine("----------------------------------------\n");
 
                     List<int> choices = new List<int>();
                     choices = EvaluateRoll(turnRoll); //(ex. [3, 2, 1, 0, 0])
@@ -159,9 +162,12 @@ namespace farkleapp
                     //If there are no options, then you farkle.
                     if (choiceOptions.Count.Equals(0))
                     {
-                        Console.WriteLine("\nFARKLE FARKLE FARKLE FARKLE FARKLE FARKLE\n");
+                        Console.WriteLine("\n----------");
+                        Console.WriteLine("FARKLE FARKLE FARKLE FARKLE FARKLE FARKLE");
+                        Console.WriteLine("----------");
                         Console.WriteLine("You FARKLED. No options to bank!");
                         Console.WriteLine("You scored 0 for this turn. Total Score: " + score + ". Next player's turn!");
+                        Console.WriteLine("----------");
                         return 0;
                     }
 
@@ -210,7 +216,7 @@ namespace farkleapp
                             if (currentChoiceLetter.Equals(letras[i])) {
                                 choiceIndex = i;
                                 currentChoiceText = choiceOptions[i];
-                                Console.WriteLine("Choice: " + letras[choiceIndex] + ". " + choiceOptions[choiceIndex]);
+                                Console.WriteLine("Choice: " + letras[choiceIndex] + ". " + choiceOptions[choiceIndex] + "\n");
                             }
                         }
 
@@ -242,7 +248,7 @@ namespace farkleapp
                             //now we have bankedOnes, which is how many 1's user wants to bank
                             
                             currentBankScore = ScoreNums(1, choices, turnRoll, bankedOnes);
-                            Console.WriteLine("Banked " + bankedOnes + " 1's.");
+                            Console.WriteLine("Banked " + bankedOnes + " 1's. " + (bankedOnes*100) + " points.");
                             List<int> numOnes = new List<int>(CountNums(turnRoll, 1));
                             string oneIndexesStr = numOnes[1].ToString();
                             List<int> oneIndexes = new List<int>();
@@ -280,7 +286,7 @@ namespace farkleapp
                                 }
                             }
                             currentBankScore = ScoreNums(5, choices, turnRoll, bankedFives);
-                            Console.WriteLine("Banked " + bankedFives + " 5's.");
+                            Console.WriteLine("Banked " + bankedFives + " 5's. " + (bankedFives*50) + " points.");
                             List<int> numFives = new List<int>(CountNums(turnRoll, 5));
                             string fiveIndexesStr = numFives[1].ToString();
                             List<int> fiveIndexes = new List<int>();
@@ -356,36 +362,36 @@ namespace farkleapp
                                     currentBankScore = (100*trioKey2);
                                 } else {
                                     Console.WriteLine("You banked 2 trios! (" + trioKey1 + " and " + trioKey2 + ")");
-                                    Console.WriteLine("Banked " + (100*(trioKey1 + trioKey2)) + " points!");
+                                    int trio1multiplier = 100;
+                                    int trio2multiplier = 100;
+                                    if (trioKey1.Equals(1)) {
+                                        trio1multiplier = 1000;
+                                    }
+                                    if (trioKey2.Equals(1)) {
+                                        trio2multiplier = 1000;
+                                    }
+                                    
+                                    currentBankScore = (trio1multiplier * trioKey1)+(trio2multiplier * trioKey2);
+                                    Console.WriteLine("Banked " + currentBankScore + " points!");
                                     turnRoll.Clear();
-                                    currentBankScore = (100*(trioKey1+trioKey2));
+                                    
                                 }
                             }
                         }
                         else if (currentChoiceText.Equals("Three Pairs")) {
-                            currentBankScore = 750;
-                            Console.WriteLine("You banked three pairs!");
-                            Console.WriteLine("Banked " + currentBankScore + " points.");
+                            currentBankScore = 1000;
+                            Console.WriteLine("Banked three pairs! " + currentBankScore + " points");
                             turnRoll.Clear();
                         }
                         else if (currentChoiceText.Equals("Straight (1-6)")) {
-                            currentBankScore = 1000;
-                            Console.WriteLine("You banked a straight!");
-                            Console.WriteLine("Banked " + currentBankScore + " points.");
+                            currentBankScore = 1500;
+                            Console.WriteLine("Banked a straight! " + currentBankScore + " points.");
                             turnRoll.Clear();
                         }
 
                         turnScore += currentBankScore;
 
                     }
-
-
-
-
-
-
-                    
-                    
 
                     //End of current roll (not end of turn yet)
                     Console.WriteLine("\nCurrent Turn Score: " + turnScore);
@@ -399,21 +405,25 @@ namespace farkleapp
                             numDice = 6;
                         } else if (rollagain.Equals("n")) {
                             playerPlaying = false;
+                            Console.WriteLine("----------");
                             Console.WriteLine("Turn finished!");
                             Console.WriteLine("You scored " + turnScore + " this turn!");
                             Console.WriteLine("Total Score: " + (score + turnScore));
+                            Console.WriteLine("----------");
                             return turnScore;
                         }
                     } else {
-                        Console.WriteLine("\nRoll remaining dice? (y/n): ");
+                        Console.Write("\nRoll remaining dice? (y/n): ");
                         String wantToContinue = Console.ReadLine();
                         //ADD ERROR CHECKING
                         if (wantToContinue.Equals("n")) {
                             //Bank points
                             playerPlaying = false;
+                            Console.WriteLine("----------");
                             Console.WriteLine("Turn finished!");
                             Console.WriteLine("You scored " + turnScore + " this turn!");
                             Console.WriteLine("Total Score: " + (score + turnScore));
+                            Console.WriteLine("----------");
                             return turnScore;
                         } else {
                             //Continue rolling
@@ -497,7 +507,7 @@ namespace farkleapp
                     }
                 }
                 
-                string result = preRow + "\n" + topRow + "\n" + midRow + "\n" + lowRow + "\n";
+                string result = preRow + "\n" + topRow + "\n" + midRow + "\n" + lowRow;
                 return result;
             }
   
@@ -668,68 +678,6 @@ namespace farkleapp
                 }
                 return 0;
             }
-
-            int ScoreTrios(List<int> roll, int numTriosToBank) {
-                List<int> trioSummary = CountTrios(roll);
-                if (numTriosToBank.Equals(1)) {
-                    Console.Write("Which # trio to bank? (ex. 5): ");
-                    string intInput = Console.ReadLine();
-                    bool validInput = false;
-                    int trioBankChoice = -1;
-                    while(!validInput) {
-                        if (intInput.Length > 1 || intInput.Length.Equals(0)) {
-                            Console.WriteLine("ERROR: Invalid input. Enter one number indicating trio.");
-                        }
-                        else {
-                            try {
-                                trioBankChoice = int.Parse(intInput); //ex. 5 (for 555)
-                                validInput = true;
-                            } catch (Exception e) {
-                                Console.WriteLine("ERROR: incorrect input. Enter integer (1-6) of trio (1, 2, etc.)");
-                            }
-                            //numTriosToBank: either 1 or 2 (int with length 1)
-                            //trioSummary is int list of 3 ints: numTrios, trioNumsInt, and trioIndexes
-                            //trioSummary[0]: # of trio sets, eg 0, 1, or 2 (length=1)
-                            //trioSummary[1]: # of dice involved in trio eg 3, or 32, or 1, or 56 (length=0, 1 or 2) 
-                            //trioSummary[2]: index (1-6, not 0-5) of all trios eg 134, or 123456 (length=0, 3, or 6)
-                            string trios = trioSummary[0].ToString();
-                            string trioNums = trioSummary[1].ToString();
-                            string trioIndices = trioSummary[2].ToString();
-
-                            for (int i = 0; i < trioNums.Length; i++) { //go thru all trios (maybe 5, then 2 for example)
-                                int trioNum = int.Parse(trioNums.Substring(i,1));
-                                if (trioNum.Equals(trioBankChoice)) { 
-                                    // get indexes of trio
-                                    // trioNum index 0 = trioIndices[0, 1, 2]
-                                    // trioNum index 1 = trioIndices[3, 4, 5]
-                                    // index of first number = 3x trioNum index
-                                    int trioNumsFoundIndex = i;
-                                    int firstTrioNumIndex = 3*i;
-                                    if (trioNum.Equals(1)) {
-                                        return 1000;
-                                        //roll.RemoveAt(i);
-                                        
-                                    }
-
-                                    //remove dice from roll
-
-                                    //determine what # they are (trioNum)
-                                    //Multiply to get unit score
-                                    //Return unit score
-                                }
-                            }
-                        }
-                    }
-                } else {
-                    //they chose 2 trios
-                    //get points, remove all
-                }
-                return 0;
-            }
-
-            
-
-        }
-        
+        }        
     }
 }
