@@ -117,7 +117,7 @@ namespace MovieLog
             //File.WriteAllText((moviedir + "\\" + filename), jsonString);
             SaveJson(filename, jsonString);
             //File.WriteAllText("lists\\" + filename, jsonString);
-            Console.WriteLine("\nDone creating movie list: " + listkey + ". THank you!");
+            Console.WriteLine("\nDone creating movie list: " + listkey + ". Thank you!");
         }
 
         static void LoadList() {
