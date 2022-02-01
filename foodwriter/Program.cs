@@ -151,7 +151,7 @@ namespace foodwriter
             string text2 = Path.Combine("Documents", "Coding", "GitStuff", "jbdotnet");
             string text3 = Path.Combine("foodwriter", "sts", listName + ".json");
             string text = Path.Combine(text1, text2, text3);
-            return File.ReadAllText(text);//"lists/turkey.json"); //"C:\\Users\\jerem\\OneDrive\\Documents\\Coding\\GitStuff\\jbdotnet\\foodwriter\\lists\\turkey.json"); //"lists\\turkey.json");//Program.listDir + listName + ".json");
+            return File.ReadAllText("sts\\" + listName + ".json"); //"C:\\Users\\jerem\\OneDrive\\Documents\\Coding\\GitStuff\\jbdotnet\\foodwriter\\lists\\turkey.json"); //"lists\\turkey.json");//Program.listDir + listName + ".json");
         }
 
         static FoodItem DisplayAndGetCurrentFood() {
@@ -251,7 +251,7 @@ namespace foodwriter
                 string jsonString = JsonSerializer.Serialize(food);
                 Console.WriteLine(jsonString);
                 string filename = RemoveSpaces(food.name) + ".json";
-                File.WriteAllText(Program.listDir + filename + ".json", jsonString);
+                File.WriteAllText(Program.listDir + filename, jsonString);
             }
             //string jsonString = JsonSerializer.Serialize(foods);
             //Console.WriteLine(jsonString);
