@@ -34,7 +34,7 @@ namespace foodwriter
 
     class Program
     {
-        static string listDir = "sts\\";
+        static string listDir = "lists\\";
         static List<FoodItem> masterFoods = new List<FoodItem>();
         static void Main(string[] args)
         {
@@ -111,7 +111,7 @@ namespace foodwriter
 
             } else if (c==3) {
                 //Delete
-
+                DeleteFood();
             } else if (c==4) {
                 //Display
                 DisplayFullFood();
@@ -123,6 +123,28 @@ namespace foodwriter
             } else {
                 Console.WriteLine("Invalid integer input. Please try again, choose 1, 2, 3, 4, or 5. Thank you.");
             }
+        }
+
+        static void DeleteFood() {
+            int foodChoice = -1;
+            Console.WriteLine("\nCurrent Foods Available");
+            string[] allfiles = GetDirectory("lists");
+            List<string> savedFoods = allfiles.ToList<string>();
+            savedFoods = RemoveFilePaths(savedFoods);
+            savedFoods = RemoveExtensions(savedFoods);
+            for (int i = 0; i < savedFoods.Count; i++) {
+                Console.WriteLine((i+1) + ". " + savedFoods[i]);
+            }
+
+            Console.Write("Enter a number (1-" + savedFoods.Count + ") to delete a food: ");
+            string r = Console.ReadLine();
+            foodChoice = IntResponseValid(r)-1;
+            string foodToDelete = "lists/" + savedFoods[foodChoice] + ".json";
+            Console.WriteLine("Deleting: " + foodToDelete);
+            File.Delete(foodToDelete);
+
+
+            string listToLoad = savedFoods[foodChoice];
         }
 
         static void DisplayFullFood() {
@@ -149,15 +171,15 @@ namespace foodwriter
             //string text1 = Path.Combine("lists", (listName + ".json"));
             string text1 = Path.Combine("C:", "Users", "jerem", "OneDrive");
             string text2 = Path.Combine("Documents", "Coding", "GitStuff", "jbdotnet");
-            string text3 = Path.Combine("foodwriter", "sts", listName + ".json");
+            string text3 = Path.Combine("foodwriter", "lists", listName + ".json");
             string text = Path.Combine(text1, text2, text3);
-            return File.ReadAllText("sts\\" + listName + ".json"); //"C:\\Users\\jerem\\OneDrive\\Documents\\Coding\\GitStuff\\jbdotnet\\foodwriter\\lists\\turkey.json"); //"lists\\turkey.json");//Program.listDir + listName + ".json");
+            return File.ReadAllText("lists\\" + listName + ".json"); //"C:\\Users\\jerem\\OneDrive\\Documents\\Coding\\GitStuff\\jbdotnet\\foodwriter\\lists\\turkey.json"); //"lists\\turkey.json");//Program.listDir + listName + ".json");
         }
 
         static FoodItem DisplayAndGetCurrentFood() {
             int foodChoice = -1;
             Console.WriteLine("\nCurrent Foods Available");
-            string[] allfiles = GetDirectory("sts");
+            string[] allfiles = GetDirectory("lists");
             List<string> savedFoods = allfiles.ToList<string>();
             savedFoods = RemoveFilePaths(savedFoods);
             savedFoods = RemoveExtensions(savedFoods);
@@ -178,7 +200,7 @@ namespace foodwriter
 
         static void DisplayCurrentFoods() {
             Console.WriteLine("\nCurrent Foods Available");
-            string[] allfiles = GetDirectory("sts");
+            string[] allfiles = GetDirectory("lists");
             List<string> savedFoods = allfiles.ToList<string>();
             savedFoods = RemoveFilePaths(savedFoods);
             savedFoods = RemoveExtensions(savedFoods);
